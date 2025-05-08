@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RAN Geovisualizador de Capas</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <script type="text/javascript" src=".\Afect_Geojson\AFECTACIONES.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\PERIMETRALES.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\PAR_AFECT_SPT.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\etiqueta.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\SUPUESTA_PROP_PRIV.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\PROPIEDAD_PRIVADA.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\edos.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\infra_AIFA.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\DDV.js"></script>
+
+    <link rel="stylesheet" href=".\CSS\styles.css">
+    
+  </head>
+
+  <body>
+    
+		<nav class="navbar">
+		  <div class="navbar-container">
+			<img src="./images/SEDATU_RAN_2025.jpg" alt="Logo SEDATU" class="logo">
+
+			<a href="https://lookerstudio.google.com/reporting/688a1f1c-f9e0-4f35-916e-9abc270088c6/page/ppeFF">
+			  <img src="./images/año-mujer-indigena.jpg" alt="Año Mujer Indígena" class="logo">
+			</a>
+
+			<div class="navbar-text">
+			  <h1>DIRECCIÓN GENERAL DE CATASTRO Y ASISTENCIA TÉCNICA</h1>
+			  <h2>DIRECCIÓN TÉCNICA</h2>
+			  <h3>COORDINACIÓN DE DESARROLLO E IMPLEMENTACIÓN DEL USO DE SIG</h3>
+			</div>
+		  </div>
+		</nav>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+      <nav>
+        <ul class="menu">
+          <li align="center"><a><br><br>Capas</a></li>
+    
+    
+          <li class="has-submenu">
+            <a href="#"><span class="icon-rocket"></span>Division Politica<span class="caret icon-arrow-down6"></span></a>
+            <ul class="submenu">
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="edosLayer" value="edosLayer" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> Limite Estatal<br> <img id="despliegue" src="./images/Simbo/Lim_est.jpg" /></a>
+              </li> 
+            </ul>
+          </li>
+          
+          <li class="has-submenu">
+            <a href="#"><span class="icon-rocket"></span>Propiedad Social<span class="caret icon-arrow-down6"></span></a>
+            <ul class="submenu">
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="Afectaciones"  value="afectacionesLayer" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);" /> Afectaciones <br> <img id="despliegue1" src="./images/Simbo/Afec.jpg" /></a>
+              </li>
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="perimetralesLayer" value="perimetralesLayer" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);" /> Perimetrales <br> <img id="despliegue2" src="./images/Simbo/Perimetral.jpg" /></a>
+              </li>
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="parcelasLayer" value="parcelasLayer"  checked onclick="encenderCapas(this.value); toggleImageVisibility(this); "/> Parcelas <br> <img id="despliegue3" src="./images/Simbo/Parcelas.jpg" /></a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="has-submenu">
+            <a href="#"><span class="icon-rocket"></span>Propiedad Privada<span class="caret icon-arrow-down6"></span></a>
+            <ul class="submenu">
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox" id="pp_Layer"   onclick="encenderCapas(this.value); toggleImageVisibility(this); " value="pp_Layer" /> Bloque-PP <br> <img id="despliegue4" src="./images/Simbo/B_pp.jpg" /></a>
+              </li>
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox" id="sp_Layer"  onclick="encenderCapas(this.value); toggleImageVisibility(this); " value="sp_Layer"  /> Supu-PP <br> <img id="despliegue5" src="./images/Simbo/S_pp.jpg" /></a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="has-submenu">
+            <a href="#"><span class="icon-rocket"></span>Infraestructura<span class="caret icon-arrow-down6"></span></a>
+            <ul class="submenu">
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox" id="InfraAIFA_Layer" onclick="encenderCapas(this.value); toggleImageVisibility(this);" value="InfraAIFA_Layer"   /> Infraestructura <br> <img id="despliegue6" src="./images/Simbo/Infra.jpg" /></a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="has-submenu">
+            <a href="#"><span class="icon-rocket"></span>Derecho de Via<span class="caret icon-arrow-down6"></span></a>
+            <ul class="submenu">
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_Layer" value="DDV_Layer" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> Derecho de Via<br> <img id="despliegue7" src="./images/Simbo/DDV.jpg" /></a>
+              </li> 
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    
+  
+    <div id="toggleArrow" class="toggle-arrow">➡️</div>
+      
+    <div id="map"></div>
+
+    <script>
+      var WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {attribution: 'Coordinación de desarrollo e implementación del uso de SIG'});
+      var Google = L.tileLayer('http://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}', {attribution: 'Coordinación de desarrollo e implementación del uso de SIG'});
+
+      // Crea el mapa
+      var map = L.map("map", {
+        layers: [WorldImagery],
+        center: [19.920947176064043, -98.80201910008635],
+        zoom: 12,
+        zoomControl: false,
+        attribution: 'COORDINACIÓN DE DESARROLLO E IMPLEMENTACIÓN DEL USO DE SIG'
+      });
+
+      var mapasBase = {
+            "ESRI Satélite": WorldImagery,
+            "Google": Google
+        }
+    
+        function highlightPPFeature(e) {
+          var layer = e.target;
+
+          layer.setStyle({
+            weight: 3,
+            color: "#8A2BE2", 
+            fillOpacity: 0.7,
+          });
+
+          layer.bringToFront();
+        }
+
+        function resetPPHighlight(e) {
+          pp_Layer.resetStyle(e.target);
+        }
+
+
+        function getColor(d) {
+        return d == "PARCELA" ? "#3EFF00" 
+          : d == "CAMINO" ? "#CC6666" : "#CC6666";
+      }
+
+      function style(feature) {
+        return {
+          weight: 2,
+          opacity: 0,
+          color: "green",
+          dashArray: "3",
+          fillOpacity: 0.7,
+          fillColor: getColor(feature.properties.AFECTACION_A),
+        };
+      }
+
+      function highlightFeature(e) {
+        var layer = e.target;
+
+        layer.setStyle({
+          weight: 5,
+          color: "#666",
+          dashArray: "",
+          fillOpacity: 0.7,
+        });
+
+        layer.bringToFront();
+      }
+
+      function resetHighlight(e) {
+        afectacionesLayer.resetStyle(e.target);
+      }
+
+      function zoomToFeature(e) {
+        map.fitBounds(e.target.getBounds());
+      }
+
+      // Función para agregar contenido al Popup al hacer clic
+      function onEachFeature(feature, layer) {
+        if (feature.properties) {
+          var popupContent =
+            "<h3 align='center'>" +
+            (feature.properties.NUCLEO_AGRARIO || "") +
+            "</h3>" +
+            "<h3 align='center'>" +
+            (feature.properties.SUJETO_AGRARIO || "") +
+              " " +
+              "<h3 align='center'>" +
+            ((feature.properties.AFECTACION_A || "") +
+              " " +
+              (feature.properties.NUM_PARCELA || "")) +
+            "</h3>" +
+            "<h3 align='center'>" +
+            ((feature.properties.SUP_COP || "") +
+              " m<sup>2</sup>") +
+            "</h3>";
+
+
+          // Vinculamos el popup a la capa
+          layer.bindPopup(popupContent);
+        }
+
+        // Configuramos eventos de ratón
+        layer.on({
+          mouseover: highlightFeature,
+          mouseout: resetHighlight,
+          click: zoomToFeature,
+        });
+      }
+
+      // Constante de las afectaciones
+      const afectacionesLayer = L.geoJson(AFECTACION_SPT, {
+        style,
+        onEachFeature,
+      });
+
+      // Constante de los perimetrales
+      const perimetralesLayer = L.geoJson(PERIMETRALES, {
+        
+        style: function (feature) {
+          return {
+            color: "#bf2323", // Color del contorno
+            weight: 3, // Grosor del contorno
+            fillColor: "#bf2323", // Relleno del polígono
+            fillOpacity: 0, // Relleno transparente
+          };
+        },
+        interactive: false, // Desactiva la interaccion
+      });
+
+      // Constante de las parcelas
+      const parcelasLayer = L.geoJson(PAR_AFECT_SPT, {
+            style: function (feature) {
+                return {
+                    color: "#B0B5AD", // Color del contorno
+                    weight: 2, // Grosor del contorno
+                    fillColor: "#B0B5AD", // Relleno del polígono
+                    fillOpacity: 0, // Relleno transparente
+                };
+            },
+            interactive: false, // Desactiva la interacción
+
+            onEachFeature: function (feature, layer) {
+                // Calcular el centro del polígono
+                const center = layer.getBounds().getCenter();
+
+                // Crear el contenido que deseas mostrar como etiqueta
+                const content = '<h5>' + feature.properties.NUM_PAR + '</h5>';
+
+                // Agregar la etiqueta en el centro del polígono
+                layer.bindTooltip(content, {
+                    permanent: true,   
+                    direction: 'center', 
+                    className: 'custom-label',  
+                });  
+            }
+
+        });
+
+      // Constante de las etiquetas
+      const etiquetaLayer = L.geoJson(etiqueta, {
+            pointToLayer: function (feature, latlng) {
+                // Crear un marcador sin icono (sin punto visible)
+                return L.marker(latlng, {
+                    icon: L.divIcon({ // Utiliza un div vacío como icono
+                        className: 'empty-icon',
+                        iconSize: [0, 0] // Define un tamaño de 0x0 para hacer el icono invisible
+                    })
+                });
+            },
+            onEachFeature: function (feature, layer) {
+                layer.bindTooltip('<h5>' + feature.properties.nom_nuc + '</h5>', {
+                    permanent: true,
+                    direction: 'top',
+                    className: 'custom-capa'
+                });
+            }
+        });
+
+      // Funciones para destacar y restablecer estilo en PP (morado)
+      function highlightPPFeature(e) {
+        var layer = e.target;
+        layer.setStyle({
+          weight: 3,
+          color: '#BA1BFF',
+          fillColor: '#BA1BFF',
+          fillOpacity: 0.7,
+        });
+      }
+
+      function resetPPHighlight(e) {
+        pp_Layer.resetStyle(e.target);
+      }
+
+      // Funciones para destacar y restablecer estilo en SP (amarillo)
+      function highlightSPFeature(e) {
+        var layer = e.target;
+        layer.setStyle({
+          weight: 3,
+          color: '#FFFB00',
+          fillColor: '#FFFB00',
+          fillOpacity: 0.7,
+        });
+      }
+
+      function resetSPHighlight(e) {
+        sp_Layer.resetStyle(e.target);
+      }
+
+      // Función para hacer zoom
+      function zoomToFeature(e) {
+        map.fitBounds(e.target.getBounds());
+      }
+
+      // Constante de la Propiedad Privada
+      const pp_Layer = L.geoJson(PROPIEDAD_PRIVADA, {
+        style: function (feature) {
+          return {
+            color: "#BA1BFF",
+            weight: 1,
+            fillColor: "#BA1BFF",
+            fillOpacity: 0.5,
+          };
+        },
+        onEachFeature: function (feature, layer) {
+          if (feature.properties) {
+            var popupContent =
+              "<h3 align='center'>" + (feature.properties.NOM_ENT || "") + "</h3>" +
+              "<h3 align='center'>BLOQUE " + (feature.properties.BLOQUE || "") + "</h3>" +
+              "<h3 align='center'>" + ((feature.properties.SUP || "") + " m<sup>2</sup>") + "</h3>";
+
+            layer.bindPopup(popupContent);
+          }
+
+          layer.on({
+            mouseover: highlightPPFeature,
+            mouseout: resetPPHighlight,
+            click: zoomToFeature,
+          });
+        }
+      });
+
+      // Constante de la Supuesta Propiedad Privada
+      const sp_Layer = L.geoJson(SUPUESTA_PROP_PRIV, {
+        style: function (feature) {
+          return {
+            color: "#FFFB00",
+            weight: 1,
+            fillColor: "#FFFB00",
+            fillOpacity: 0.5,
+          };
+        },
+        onEachFeature: function (feature, layer) {
+          if (feature.properties) {
+            var popupContent =
+              "<h3 align='center'>" + (feature.properties.NOM_EDO || "") + "</h3>" +
+              "<h3 align='center'>NUM. POL " + (feature.properties.NUM_POL || "") + "</h3>" +
+              "<h3 align='center'>" + ((feature.properties.SUP || "") + " m<sup>2</sup>") + "</h3>";
+
+            layer.bindPopup(popupContent);
+          }
+
+          layer.on({
+            mouseover: highlightSPFeature,
+            mouseout: resetSPHighlight,
+            click: zoomToFeature,
+          });
+        }
+      });
+
+      // Constante de los limites estatales
+      const edosLayer = L.geoJson(EDOS, {
+        
+        style: function (feature) {
+          return {
+            color: "#000000", // Color del contorno
+            weight: 2, // Grosor del contorno
+            fillColor: "#979797", // Relleno del polígono
+            fillOpacity: 0, // Relleno transparente
+          };
+        },
+        interactive: false, // Desactiva la interaccion
+      });
+      
+      // Constante de la infraestructura
+      const InfraAIFA_Layer = L.geoJson(INFRA_AIFA, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad INFRA_AIFA
+          function getColors(d) {
+
+            return d == "RIEL" ? "#FCFCFC" : 
+                  d == "CARRETERA" ? "#739391" : 
+                  d == "BANQUETA" ? "#D6D6D6" : 
+                  d == "CANAL" ? "#3EFF00" : 
+                  d == "PROPIEDAD_PRIVADA" ? "#FFFF00" :  // Corregí el formato de color de "FFFF00"
+                  d == "POSTERIA" ? "#CBCC6C" :
+                  d == "TERRACERIA" ? "#CD667F" :
+                  d == "MALLA" ? "#879B4D" :
+                  d == "LINEA_DE_CONTROL" ? "#FF9F81" :
+                  d == "LINEA_ELECTRICA" ? "#9900CC" :
+                  d == "PUENTE" ? "#FFDF7F" :
+                  d == "ALCANTARILLA" ? "#994C5F" :
+                  d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "CONSTRUCCION" ? "#C8DCC1" :
+                  d == "DUCTO_PEMEX" ? "#134C00" :
+                  d == "DRENAJE" ? "#B4B997" :
+                  d == "SISTEMA_DE_RIEGO" ? "#B4B997" :
+                  d == "EJE_DE_VIA" ? "#FF0000" : "#00FFE0";  // Color por defecto
+          }
+
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+
+      // Constante de los derechos de via
+      const DDV_Layer = L.geoJson(DDV, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+
+      // Función para definir el color de las líneas con un parámetro de color
+      function lineStyle(color) {
+        return {
+          weight: 3, // Grosor de la línea
+          opacity: 1, // Opacidad de la línea
+          color: color, // Color de la línea que se pasa como parámetro
+        };
+      }
+     
+      // Agregamos un control de capas
+      L.control.layers(mapasBase,).addTo(map);
+      
+      //Control del zoom
+      L.control.zoom({
+            position: "topright"
+        }).addTo(map);
+
+      // Crear un control para mostrar coordenadas
+      var coordsControl = L.control({position: 'bottomright'});
+
+      coordsControl.onAdd = function(map) {
+          var div = L.DomUtil.create('div', 'leaflet-control-coords'); // Clase única
+          div.style.background = 'rgba(255,255,255,0.8)'; // también inline por si acaso
+          div.style.padding = '3px';
+          div.style.fontSize = '11px';
+          this._div = div;
+          this.update();
+          return div;
+      };
+
+      coordsControl.update = function(latlng) {
+          this._div.innerHTML = latlng ? 
+              `Lat: ${latlng.lat.toFixed(5)}, Lng: ${latlng.lng.toFixed(5)}` : 
+              'Mueve el mouse sobre el mapa';
+      };
+
+      coordsControl.addTo(map);
+
+     
+      // Evento mousemove
+      map.on('mousemove', function(e) {
+          coordsControl.update(e.latlng);
+      });
+
+
+      // Añadimos las capas al mapa
+      afectacionesLayer.addTo(map);
+      perimetralesLayer.addTo(map);
+      parcelasLayer.addTo(map);
+      pp_Layer
+      sp_Layer
+      InfraAIFA_Layer
+      DDV_Layer.addTo(map);
+      etiquetaLayer.addTo(map);
+      edosLayer.addTo(map);
+
+
+        function encenderCapas(layerName) {
+          const checkbox = document.querySelector(`input[value="${layerName}"]`);
+          const visible = checkbox.checked;
+
+          switch(layerName) {
+            case 'afectacionesLayer':
+              visible ? map.addLayer(afectacionesLayer) : map.removeLayer(afectacionesLayer);
+              break;
+            case 'perimetralesLayer':
+              visible ? map.addLayer(perimetralesLayer) : map.removeLayer(perimetralesLayer);
+              break;
+            case 'parcelasLayer':
+              visible ? map.addLayer(parcelasLayer) : map.removeLayer(parcelasLayer);
+              break;
+            case 'pp_Layer':
+              visible ? map.addLayer(pp_Layer) : map.removeLayer(pp_Layer);
+              break;
+            case 'sp_Layer':
+              visible ? map.addLayer(sp_Layer) : map.removeLayer(sp_Layer);
+              break;
+            case 'edosLayer':
+              visible ? map.addLayer(edosLayer) : map.removeLayer(edosLayer);
+              break;
+            case 'InfraAIFA_Layer':
+              visible ? map.addLayer(InfraAIFA_Layer) : map.removeLayer(InfraAIFA_Layer);
+              break;
+            case 'DDV_Layer':
+            visible ? map.addLayer(DDV_Layer) : map.removeLayer(DDV_Layer);
+            break;
+            default:
+              console.warn('Capa no reconocida:', layerName);
+          }
+        }
+
+ 
+
+    </script>
+
+    <script>
+
+      const sidebar = document.getElementById('sidebar');
+      const toggleArrow = document.getElementById('toggleArrow');
+
+      toggleArrow.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+
+        // Cambiar la posición y la flecha
+        if (sidebar.classList.contains('open')) {
+          toggleArrow.innerHTML = '⬅️';
+          toggleArrow.style.left = '250px';
+        } else {
+          toggleArrow.innerHTML = '➡️';
+          toggleArrow.style.left = '0';
+        }
+      });
+
+      // Submenús desplegables
+      document.querySelectorAll('.has-submenu > a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault(); // evita redirección
+        const parent = link.parentElement;
+        parent.classList.toggle('open');
+        const submenu = parent.querySelector('.submenu');
+        submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+      });
+      });
+
+      
+      function toggleImageVisibility(checkbox) {
+		const id = checkbox.id;
+		let img;
+
+		switch (id) {
+		  case 'edosLayer':
+			img = document.getElementById('despliegue');
+			break;
+		  case 'Afectaciones':
+			img = document.getElementById('despliegue1');
+			break;
+		  case 'perimetralesLayer':
+			img = document.getElementById('despliegue2');
+			break;
+		  case 'parcelasLayer':
+			img = document.getElementById('despliegue3');
+			break;
+		  case 'pp_Layer':
+			img = document.getElementById('despliegue4');
+			break;
+		  case 'sp_Layer':
+			img = document.getElementById('despliegue5');
+			break;
+		  case 'InfraAIFA_Layer':
+			img = document.getElementById('despliegue6');
+			break;
+      case 'DDV_Layer':
+			img = document.getElementById('despliegue7');
+			break;
+		  default:
+			return;
+		}
+
+		if (checkbox.checked) {
+		  img.style.display = 'block';
+		} else {
+		  img.style.display = 'none';
+		}
+	  }
+
+	  // Al cargar la página, inicializar correctamente la visibilidad de las imágenes
+	  window.addEventListener('DOMContentLoaded', function () {
+		const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+		checkboxes.forEach(function (checkbox) {
+		  toggleImageVisibility(checkbox);
+		});
+	  });
+
+
+    </script>
+  </body>
+</html>
