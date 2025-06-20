@@ -1,0 +1,295 @@
+html, body {
+height: 100%;
+margin: 0;
+padding: 0;
+}
+
+#map {
+    position: absolute;
+    top: 0px; /* altura de la navbar */
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.custom-label {
+    background-color: rgba(0, 0, 0, 0); 
+    padding: 0px 5px; 
+    font-size: 16px; 
+    color: #ffffff; 
+    text-align: center;  /* Alinea el texto al centro */
+    max-width: 200px; 
+    white-space: normal; 
+    word-wrap: break-word;
+    border: none; 
+    box-shadow: none; 
+}
+
+.custom-cota {
+    background-color: transparent !important;  
+    border: transparent !important;
+    color: #000000 !important;
+    font-size: 16px !important;
+    padding: 5px !important;
+    border: none !important; 
+    box-shadow: none !important; 
+}
+
+
+.custom-capa {
+    background-color: rgba(0, 0, 0, 0); 
+    padding: 0px 5px; 
+    font-size: 16px; 
+    color: #ff0000; 
+    text-align: center;  /* Alinea el texto al centro */
+    max-width: 200px; 
+    white-space: normal; 
+    word-wrap: break-word;
+    border: none; 
+    box-shadow: none; 
+}
+
+/* Reset básico */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: sans-serif;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 5%;
+    width: 90%;
+    background-color: #ffffff;
+    z-index: 2000; /* más alto que el mapa */
+    border-radius: 0 0 15px 15px;
+}
+
+.navbar-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos bajen de línea si no caben */
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+    z-index: 200;
+}
+
+.logo {
+    max-height: 50px;
+    max-width: 100%;
+    height: auto;
+}
+
+.navbar-text {
+    color: #0b5f0d;
+    max-width: 100%;
+}
+
+.navbar-text h1 {
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-align: right;
+}
+
+.navbar-text h2 {
+    font-size: 1.2rem;
+    text-align: right;
+}
+
+.navbar-text h3 {
+    font-size: 1rem;
+    text-align: right;
+}
+
+/* Media query para pantallas pequeñas */
+@media (max-width: 768px) {
+    .navbar-container {
+    flex-direction: column;
+    }
+
+    .navbar-text h1 {
+    font-size: 1.1rem;
+    }
+
+    .navbar-text h2 {
+    font-size: 1rem;
+    }
+
+    .navbar-text h3 {
+    font-size: 0.9rem;
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.sidebar {
+    box-sizing: border-box;
+    position: fixed;
+    top: 10%;
+    left: 0;
+    width: 250px;
+    height: 85%;
+    background-color: #ffffff;
+    color: white;
+    overflow-x: hidden;
+    transition: transform 0.3s ease;
+    transform: translateX(-100%);
+    z-index: 10;
+    padding: 20px 10px;
+    padding-right: 14px;
+    overflow-y: auto; /* Asegura que se pueda hacer scroll vertical */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #999 #f0f0f0; /* color del thumb y track */
+    border-radius: 10px;
+    border: 2px solid #ccc; /* o el color que prefieras */
+
+}
+
+/* Chrome, Edge, Safari */
+.sidebar::-webkit-scrollbar {
+  width: 6px; /* ancho de la barra */
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 50px; /* Aumenta el valor para que se vea más redondeado */
+  border: 1px solid #ccc;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 50px; /* Opcional: redondea también el fondo */
+}
+
+
+.sidebar.open {
+    transform: translateX(0);
+}
+
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.sidebar nav ul li {
+    margin: 20px 0;
+}
+
+.sidebar nav ul li a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.toggle-arrow {
+    position: fixed;
+    top: 50%;
+    left: 250px;
+    width: 40px;
+    height: 40px;
+    background-color: #444;
+    color: white;
+    border-radius: 0 5px 5px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: left 0.3s ease;
+    z-index: 1100;
+    font-size: 18px;
+}
+
+.sidebar:not(.open) + .toggle-arrow {
+    left: 0;
+    border-radius: 0 5px 5px 0;
+}
+
+
+
+main {
+    margin-left: 0;
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+}
+
+.sidebar.open ~ main {
+    margin-left: 250px;
+}
+
+.submenu {
+    display: none;
+    padding-left: 10px;
+    margin-top: 2px;
+}
+
+.submenu li {
+    margin: 2px 0;
+}
+
+.has-submenu > a::after {
+    content: ">";
+    float: right;
+    transition: transform 0.3s ease;
+}
+
+.has-submenu.open > a::after {
+    transform: rotate(-90deg);
+}
+
+#despliegue, #despliegue2, #despliegue3, #despliegue4, #despliegue5, #despliegue7, #despliegue8, #despliegue9, #despliegue10, 
+#despliegue11, #despliegue12, #despliegue13, #despliegue14, #despliegue15, #despliegue16, #despliegue17, #despliegue18, #despliegue19, 
+#despliegue20, #despliegue21, #despliegue22, #despliegue23, #despliegue24, #despliegue25, #despliegue26, #despliegue27, #despliegue28, 
+#despliegue29, #despliegue30, #despliegue31, #despliegue32, #despliegue33, #despliegue34, #despliegue35, #despliegue40{
+    max-width: 500px;
+    display: none; /* Oculta la imagen al cargar */
+    margin-top: 10px;
+    margin-left: 20px;
+    width: 200px;
+    height: 30px;
+}
+#despliegue1 {
+    max-width: 500px;
+    display: none; /* Oculta la imagen al cargar */
+    margin-top: 10px;
+    margin-left: 20px;
+    width: 200px;
+    height: 45px;
+}
+#despliegue6 {
+    max-width: 500px;
+    display: none; /* Oculta la imagen al cargar */
+    margin-top: 10px;
+    margin-left: 20px;
+    width: 200px;
+    height: 300px;
+};
+
+.leaflet-control-coords {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 5px;
+    font-size: 12px;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+.leaflet-control-draw-measure {
+    background-image: url(..\images\measure-control.png);
+}
+
+.leaflet-top.leaflet-right {
+    top: 80px !important; /* ajusta este valor según el alto real de tu navbar */
+}

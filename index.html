@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RAN Geovisualizador de Capas</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <!-- Dependency to Leaflet Draw -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.3.2/leaflet.draw.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.3.2/leaflet.draw.js"></script>
+
+    <script type="text/javascript" src=".\Afect_Geojson\AFECTACIONES.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\PERIMETRALES.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\PAR_AFECT_SPT.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\etiqueta.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\SUPUESTA_PROP_PRIV.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\PROPIEDAD_PRIVADA.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\edos.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\infra_AIFA.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\DDV.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\COTAS_KM.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\Acayuca.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\AGUA_AZUL.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\Ixtlahuaca.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\Jaguey_Tellez.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\Pachuquilla.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\Pedro_Escobedo.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\San_Clemente.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\San_Ildefonso.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\Sn_Pedro_Tlaquilpan.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\Temascalapa.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\EL_MUERTO.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\TEPEJI_DEL_RIO.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\SANTA_CRUZ_Y_SUS_BARRIOS.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\SANTA_BARBARA.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\NAVAJAS.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\MELCHOR.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\LOS_ALVARES.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\EL_ROSARIO.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\COYOTEPEC.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\SAUZ.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\SN_JUAN_ZITLALTEPEC.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\VIBORILLAS.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\EL_SAUCILLO.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\MOGOTES.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\NCPA_CHACON.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\TIZAYUCA.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\PRESA_DEL_REY.js"></script>
+    <script type="text/javascript" src=".\Afect_Geojson\Afec_DDV\SANTA_ANA_NEXTLALPAN.js"></script>
+
+
+    <link rel="stylesheet" href=".\CSS\styles.css">
+    
+    <!-- Files from current project -->
+    <link rel="stylesheet" href=".\Container\leaflet.measurecontrol.css" />
+    <script src=".\Container\leaflet.measurecontrol.js"></script>
+
+  </head>
+
+  <body>
+    <svg width="0" height="0">
+      <defs>
+        <pattern id="diagonalHatch" patternUnits="userSpaceOnUse" width="16" height="8" patternTransform="rotate(135)">
+          <line x1="0" y1="0" x2="0" y2="8" stroke="#C8ACEA" stroke-width="5"/>
+        </pattern>
+      </defs>
+    </svg>
+
+    
+		<nav class="navbar">
+		  <div class="navbar-container">
+			<img src="./images/SEDATU_RAN_2025.jpg" alt="Logo SEDATU" class="logo">
+
+			<a href="https://lookerstudio.google.com/reporting/688a1f1c-f9e0-4f35-916e-9abc270088c6/page/ppeFF">
+			  <img src="./images/año-mujer-indigena.jpg" alt="Año Mujer Indígena" class="logo">
+			</a>
+
+			<div class="navbar-text">
+			  <h3>DIRECCIÓN GENERAL DE CATASTRO Y ASISTENCIA TÉCNICA - DIRECCIÓN TÉCNICA - COORDINACIÓN DE DESARROLLO E IMPLEMENTACIÓN DEL USO DE SIG</h3>
+			</div>
+		  </div>
+		</nav>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+      <nav>
+        <ul class="menu">
+          <li align="center"><a>Capas</a></li>
+    
+    
+          <li class="has-submenu">
+            <a href="#"><span class="icon-rocket"></span>División Política<span class="caret icon-arrow-down6"></span></a>
+            <ul class="submenu">
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="edosLayer" value="edosLayer" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> Límite Estatal<br> <img id="despliegue" src="./images/Simbo/Lim_est.jpg" /></a>
+              </li> 
+            </ul>
+          </li>
+          
+          
+          <li class="has-submenu">
+            <a href="#"><span class="icon-rocket"></span>Propiedad Social<span class="caret icon-arrow-down6"></span></a>
+            <ul class="submenu">
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="Afectaciones"  value="afectacionesLayer" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);" /> Afectaciones <br> <img id="despliegue1" src="./images/Simbo/Afec.jpg" /></a>
+              </li>
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="perimetralesLayer" value="perimetralesLayer" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);" /> Perimetrales <br> <img id="despliegue2" src="./images/Simbo/Perimetral.jpg" /></a>
+              </li>
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="parcelasLayer" value="parcelasLayer"  checked onclick="encenderCapas(this.value); toggleImageVisibility(this); "/> Parcelas <br> <img id="despliegue3" src="./images/Simbo/Parcelas.jpg" /></a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="has-submenu">
+            <a href="#"><span class="icon-rocket"></span>Propiedad Privada<span class="caret icon-arrow-down6"></span></a>
+            <ul class="submenu">
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox" id="pp_Layer"   onclick="encenderCapas(this.value); toggleImageVisibility(this); " value="pp_Layer" /> Bloque-PP <br> <img id="despliegue4" src="./images/Simbo/B_pp.jpg" /></a>
+              </li>
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox" id="sp_Layer"  onclick="encenderCapas(this.value); toggleImageVisibility(this); " value="sp_Layer"  /> Supu-PP <br> <img id="despliegue5" src="./images/Simbo/S_pp.jpg" /></a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="has-submenu">
+            <a href="#"><span class="icon-rocket"></span>Cotas<span class="caret icon-arrow-down6"></span></a>
+              <ul class="submenu">
+                <li>
+                  <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="cotasLayer" value="cotasLayer" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> Cotas Cada Km<br> <img id="despliegue40" src="./images/Simbo/KILOMETRAJE.jpg" /></a>
+                </li> 
+              </ul>
+          </li>
+
+          <li class="has-submenu">
+            <a href="#"><span class="icon-rocket"></span>Infraestructura<span class="caret icon-arrow-down6"></span></a>
+            <ul class="submenu">
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox" id="InfraAIFA_Layer" onclick="encenderCapas(this.value); toggleImageVisibility(this);" value="InfraAIFA_Layer"   /> Infraestructura <br> <img id="despliegue6" src="./images/Simbo/Infra.jpg" /></a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="has-submenu">
+            <a href="#"><span class="icon-rocket"></span>Derecho de Vía<span class="caret icon-arrow-down6"></span></a>
+            <ul class="submenu">
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_Acayuca" value="DDV_Acayuca" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> Acayuca<br> <img id="despliegue8" src="./images/Simbo/DDV_ACAYUCA.jpg" /></a>
+              </li> 
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_AGUA_AZUL" value="DDV_AGUA_AZUL" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> Agua Azul<br> <img id="despliegue9" src="./images/Simbo/DDV_AGUA_AZUL.jpg" /></a>
+              </li>
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_COYOTEPEC" value="DDV_COYOTEPEC" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> Coyotepec<br> <img id="despliegue26" src="./images/Simbo/DDV_COYOTEPEC.jpg" /></a>
+              </li>  
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_El_Muerto" value="DDV_El_Muerto" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> El Muerto Ignacio Pérez<br> <img id="despliegue18" src="./images/Simbo/DDV_EL_MUERTO.jpg" /></a>
+              </li> 
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_EL_ROSARIO" value="DDV_EL_ROSARIO" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> El Rosario<br> <img id="despliegue25" src="./images/Simbo/DDV_EL_ROSARIO.jpg" /></a>
+              </li> 
+              <li>
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_EL_SAUCILLO" value="DDV_EL_SAUCILLO" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> El Saucillo<br> <img id="despliegue30" src="./images/Simbo/DDV_EL_SAUCILLO.jpg" /></a>
+              </li> 
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_SAUZ" value="DDV_SAUZ" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> El Sauz<br> <img id="despliegue27" src="./images/Simbo/DDV_SAUZ.jpg" /></a>
+              </li>   
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_Jaguey_Tellez" value="DDV_Jaguey_Tellez" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> Jagüey De Tellez<br> <img id="despliegue11" src="./images/Simbo/DDV_JAGUEY.jpg" /></a>
+              </li>               
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_LOS_ALVARES" value="DDV_LOS_ALVARES" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> Los Álvarez<br> <img id="despliegue24" src="./images/Simbo/DDV_LOS_ALVARES.jpg" /></a>
+              </li> 
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_MELCHOR" value="DDV_MELCHOR" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> Melchor Ocampo<br> <img id="despliegue23" src="./images/Simbo/DDV_MELCHOR_OCAMPO.jpg" /></a>
+              </li>
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_MOGOTES" value="DDV_MOGOTES" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> Mogotes<br> <img id="despliegue31" src="./images/Simbo/DDV_MOGOTES.jpg" /></a>
+              </li>     
+              <li>     
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_NAVAJAS" value="DDV_NAVAJAS" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> Navajas<br> <img id="despliegue22" src="./images/Simbo/DDV_NAVAJAS.jpg" /></a>
+              </li> 
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_NCPA_CHACON" value="DDV_NCPA_CHACON" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> N.C.P.A. Chacón<br> <img id="despliegue32" src="./images/Simbo/DDV_NCPA_CHACON.jpg" /></a>
+              </li>                         
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_Pachuquilla" value="DDV_Pachuquilla" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> Pachuquilla<br> <img id="despliegue12" src="./images/Simbo/DDV_PACHUQUILLA.jpg" /></a>
+              </li> 
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_Pedro_Escobedo" value="DDV_Pedro_Escobedo" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> Pedro Escobedo<br> <img id="despliegue13" src="./images/Simbo/DDV_P_ESCOBEDO.jpg" /></a>
+              </li> 
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_PRESA_DEL_REY" value="DDV_PRESA_DEL_REY" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> Presa Del Rey<br> <img id="despliegue34" src="./images/Simbo/DDV_PRESA_DEL_REY.jpg" /></a>
+              </li> 
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_San_Clemente" value="DDV_San_Clemente" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> San Clemente<br> <img id="despliegue14" src="./images/Simbo/DDV_SN_CLEMENTE.jpg" /></a>
+              </li> 
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_San_Ildefonso" value="DDV_San_Ildefonso" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> San Ildefonso<br> <img id="despliegue15" src="./images/Simbo/DDV_SN_ILDEFONSO.jpg" /></a>
+              </li> 
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_SN_JUAN_ZITLALTEPEC" value="DDV_SN_JUAN_ZITLALTEPEC" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> San Juan Zitlaltepec<br> <img id="despliegue28" src="./images/Simbo/DDV_SA_JUAN_ZITLALTEPEC.jpg" /></a>
+              </li> 
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_Ixtlahuaca" value="DDV_Ixtlahuaca" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> San Mateo Ixtlahuaca<br> <img id="despliegue10" src="./images/Simbo/DDV_SN_MT_IXTLAHUACA.jpg" /></a>
+              </li>   
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_SANTA_ANA_NEXTLALPAN" value="DDV_SANTA_ANA_NEXTLALPAN" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> Santa Ana Nextlalpan<br> <img id="despliegue35" src="./images/Simbo/DDV_SANTA_ANA_NEXT.jpg" /></a>
+              </li>               
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_Sn_Pedro_Tlaquilpan" value="DDV_Sn_Pedro_Tlaquilpan" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> San Pedro Tlaquilpan<br> <img id="despliegue16" src="./images/Simbo/DDV_SN_PEDRO_TLAQUILPAN.jpg" /></a>
+              </li>  
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_SANTA_BARBARA" value="DDV_SANTA_BARBARA" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> Santa Barbára <img id="despliegue21" src="./images/Simbo/DDV_SANTA_BARBARA.jpg" /></a>
+              </li>              
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_SANTA_CRUZ_Y_SUS_BARRIOS" value="DDV_SANTA_CRUZ_Y_SUS_BARRIOS" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> Santa Cruz y Sus Barrios<br> <img id="despliegue20" src="./images/Simbo/DDV_SANTA_CRUZ.jpg" /></a>
+              </li>            
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_Temascalapa" value="DDV_Temascalapa" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> Temascalapa<br> <img id="despliegue17" src="./images/Simbo/DDV_TEMASCALAPA.jpg" /></a>
+              </li> 
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_TEPEJI_DEL_RIO" value="DDV_TEPEJI_DEL_RIO" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> Tepeji Del Río<br> <img id="despliegue19" src="./images/Simbo/DDV_TEPEJI_DEL_RIO.jpg" /></a>
+              </li> 
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_TIZAYUCA" value="DDV_TIZAYUCA" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> Tizayuca<br> <img id="despliegue33" src="./images/Simbo/DDV_TIZAYUCA.jpg" /></a>
+              </li> 
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_VIBORILLAS" value="DDV_VIBORILLAS" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> Viborillas<br> <img id="despliegue29" src="./images/Simbo/DDV_VIBORILLAS.jpg" /></a>
+              </li> 
+              <li>
+                <a class="nav__dropdown-item"><input name="checkbox2" type="checkbox"  id="DDV_Layer" value="DDV_Layer" checked onclick="encenderCapas(this.value); toggleImageVisibility(this);"/> Derecho de Vía<br> <img id="despliegue7" src="./images/Simbo/DDV.jpg" /></a>
+              </li> 
+              
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    
+  
+    <div id="toggleArrow" class="toggle-arrow">➡️</div>
+      
+    <div id="map"></div>
+
+    <script>
+      var WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {attribution: 'Coordinación de desarrollo e implementación del uso de SIG'});
+      var Google = L.tileLayer('http://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}', {attribution: 'Coordinación de desarrollo e implementación del uso de SIG'});
+
+      // Crea el mapa
+      var map = L.map("map", {
+        layers: [WorldImagery],
+        center: [20.12165, -99.69955],
+        zoom: 10,
+        zoomControl: false,
+        attribution: 'COORDINACIÓN DE DESARROLLO E IMPLEMENTACIÓN DEL USO DE SIG'
+      });
+
+      var mapasBase = {
+            "ESRI Satélite": WorldImagery,
+            "Google": Google
+        }
+      
+    
+        function highlightPPFeature(e) {
+          var layer = e.target;
+
+          layer.setStyle({
+            weight: 3,
+            color: "#8A2BE2", 
+            fillOpacity: 0.7,
+          });
+
+          layer.bringToFront();
+        }
+
+        function resetPPHighlight(e) {
+          pp_Layer.resetStyle(e.target);
+        }
+
+
+        function getColor(d) {
+        return d == "PARCELA" ? "#3EFF00":
+              d == "PDP" ? "#b687d6" 
+          : d == "CAMINO" ? "#CC6666" : "#CC6666";
+      }
+
+      function style(feature) {
+        return {
+          weight: 2,
+          opacity: 0,
+          color: "green",
+          dashArray: "3",
+          fillOpacity: 0.7,
+          fillColor: getColor(feature.properties.AFECTA),
+        };
+      }
+
+      function highlightFeature(e) {
+        var layer = e.target;
+
+        layer.setStyle({
+          weight: 5,
+          color: "#666",
+          dashArray: "",
+          fillOpacity: 0.7,
+        });
+
+        layer.bringToFront();
+      }
+
+      function resetHighlight(e) {
+        afectacionesLayer.resetStyle(e.target);
+      }
+
+      function zoomToFeature(e) {
+        map.fitBounds(e.target.getBounds());
+      }
+
+      // Función para agregar contenido al Popup al hacer clic
+      function onEachFeature(feature, layer) {
+        if (feature.properties) {
+          var popupContent =
+            "<h3 align='center'>" +
+            (feature.properties.NUCLEO_AGRARIO || "") +
+            "</h3>" +
+            "<h3 align='center'>" +
+            (feature.properties.SUJETO_AGRARIO || "") +
+              " " +
+              "<h3 align='center'>" +
+            ((feature.properties.AFECTACION_A || "") +
+              " " +
+              (feature.properties.NUM_PARCELA || "")) +
+            "</h3>" +
+            "<h3 align='center'>" +
+            ((feature.properties.SUP_COP || "") +
+              " m<sup>2</sup>") +
+            "</h3>";
+
+
+          // Vinculamos el popup a la capa
+          layer.bindPopup(popupContent);
+        }
+
+        // Configuramos eventos de ratón
+        layer.on({
+          mouseover: highlightFeature,
+          mouseout: resetHighlight,
+          click: zoomToFeature,
+        });
+      }
+
+      // Constante de las afectaciones
+      const afectacionesLayer = L.geoJson(AFECTACION_SPT, {
+        style,
+        onEachFeature,
+      });
+
+      // Constante de los perimetrales
+      const perimetralesLayer = L.geoJson(PERIMETRALES, {
+        
+        style: function (feature) {
+          return {
+            color: "#bf2323", // Color del contorno
+            weight: 3, // Grosor del contorno
+            fillColor: "#bf2323", // Relleno del polígono
+            fillOpacity: 0, // Relleno transparente
+          };
+        },
+        interactive: false, // Desactiva la interaccion
+      });
+
+      // Constante de las parcelas
+      const parcelasLayer = L.geoJson(PAR_AFECT_SPT, {
+        style: function (feature) {
+          const tipo = feature.properties.TIPO;
+
+          return {
+            color: tipo === "PDP" ? "#6134E3" : "#B0B5AD", // Contorno
+            weight: 2,
+            fillOpacity: tipo === "PDP" ? 1 : 0,           // Solo mostrar relleno en PDP
+            fillColor: tipo === "PDP" ? "url(#diagonalHatch)" : "transparent"
+          };
+        },
+        interactive: false,
+
+        onEachFeature: function (feature, layer) {
+          const center = layer.getBounds().getCenter();
+          const content = '<h5>' + feature.properties.NUM_PAR + '</h5>';
+
+          layer.bindTooltip(content, {
+            permanent: true,
+            direction: 'center',
+            className: 'custom-label',
+          });
+
+          // Función para verificar si la etiqueta debe mostrarse según el nivel de zoom
+                function checkZoomVisibility() {
+                    const zoomLevel = map.getZoom(); // Obtener el nivel de zoom actual
+
+                    // Si el zoom está fuera del rango deseado, eliminar la etiqueta
+                    if (zoomLevel < 15 || zoomLevel > 20) {
+                        layer.unbindTooltip(); // Eliminar la etiqueta (si está fuera del rango de zoom)
+                    } else {
+                        // Si el zoom está dentro del rango, asegurarse de que la etiqueta esté visible
+                        if (!layer.getTooltip()) {
+                            // Vuelve a crear la etiqueta en caso de que haya sido eliminada
+                            layer.bindTooltip(content, {
+                                permanent: true,
+                                direction: 'center',
+                                className: 'custom-label',
+                            });
+                        }
+                    }
+                  
+                }
+                checkZoomVisibility();
+                  map.on('zoom', checkZoomVisibility); // Cada vez que se cambie el zoom, verifica la visibilidad
+                             
+        }
+      });
+
+
+      // Funciones para destacar y restablecer estilo en Cotas (negro)
+      function highlightCOFeature(e) {
+        var layer = e.target;
+        layer.setStyle({
+          weight: 3,
+          color: '#000000',
+          fillColor: '#000000',
+          fillOpacity: 0.7,
+        });
+      }
+
+      function resetCOHighlight(e) {
+        cotasLayer.resetStyle(e.target);
+      }
+
+      // Constante de cotas por KM
+      const cotasLayer = L.geoJson(COTAS_KM, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+            // Asignar colores según la propiedad DDV
+            function getColors(d) {
+                return d == "PROPIEDAD PRIVADA" ? "#000000" :
+                    d == "OTRO" ? "#000000" : "#000000";  // Color por defecto
+            }
+            return {
+                weight: 2,          // Grosor de la línea
+                opacity: 0.7,       // Opacidad de la línea
+                color: getColors(feature.properties.TIP), // Asignar color al trazo de la línea
+            };
+        },
+
+        onEachFeature: function (feature, layer) {
+            // Obtener el valor de CADA_KM
+            const cadaKm = feature.properties.CADA_KM;
+
+            // Verificar si CADA_KM no es null o vacío
+            if (cadaKm !== null && cadaKm !== "") {
+                // Crear el contenido que deseas mostrar como etiqueta
+                const content = '<h5>' + cadaKm + '</h5>';
+
+                // Agregar la etiqueta en el centro del polígono
+                const tooltip = layer.bindTooltip(content, {
+                    permanent: true,
+                    direction: 'right',
+                    className: 'custom-cota', 
+                });
+
+                // Función para verificar si la etiqueta debe mostrarse según el nivel de zoom
+                function checkZoomVisibility() {
+                    const zoomLevel = map.getZoom(); // Obtener el nivel de zoom actual
+
+                    // Si el zoom está fuera del rango deseado, eliminar la etiqueta
+                    if (zoomLevel < 15 || zoomLevel > 20) {
+                        layer.unbindTooltip(); // Eliminar la etiqueta (si está fuera del rango de zoom)
+                    } else {
+                        // Si el zoom está dentro del rango, asegurarse de que la etiqueta esté visible
+                        if (!layer.getTooltip()) {
+                            // Vuelve a crear la etiqueta en caso de que haya sido eliminada
+                            layer.bindTooltip(content, {
+                                permanent: true,
+                                direction: 'right',
+                                className: 'custom-cota',
+                            });
+                        }
+                    }
+                }
+
+                // Ejecutar la función al cargar el mapa y cuando se cambie el zoom
+                checkZoomVisibility();
+                map.on('zoom', checkZoomVisibility); // Cada vez que se cambie el zoom, verifica la visibilidad
+            }
+        
+            if (feature.properties) {
+            var popupContent =
+              "<h3 align='center'>" + (feature.properties.COTAS_KM || "") + "</h3>" +
+              "<h3 align='center'>" + (feature.properties.TIP || "") + "</h3>";
+
+            layer.bindPopup(popupContent);
+          }
+
+            layer.on({
+              mouseover: highlightCOFeature,
+              mouseout: resetCOHighlight,
+              click: zoomToFeature,
+          
+          });
+        }
+    });
+
+      // Constante de las etiquetas
+      const etiquetaLayer = L.geoJson(etiqueta, {
+            pointToLayer: function (feature, latlng) {
+                // Crear un marcador sin icono (sin punto visible)
+                return L.marker(latlng, {
+                    icon: L.divIcon({ // Utiliza un div vacío como icono
+                        className: 'empty-icon',
+                        iconSize: [0, 0] // Define un tamaño de 0x0 para hacer el icono invisible
+                    })
+                });
+            },
+            onEachFeature: function (feature, layer) {
+                layer.bindTooltip('<h5>' + feature.properties.nom_nuc + '</h5>', {
+                    permanent: true,
+                    direction: 'top',
+                    className: 'custom-capa'
+                });
+            }
+        });
+
+      // Funciones para destacar y restablecer estilo en PP (morado)
+      function highlightPPFeature(e) {
+        var layer = e.target;
+        layer.setStyle({
+          weight: 3,
+          color: '#BA1BFF',
+          fillColor: '#BA1BFF',
+          fillOpacity: 0.7,
+        });
+      }
+
+      function resetPPHighlight(e) {
+        pp_Layer.resetStyle(e.target);
+      }
+
+      // Funciones para destacar y restablecer estilo en SP (amarillo)
+      function highlightSPFeature(e) {
+        var layer = e.target;
+        layer.setStyle({
+          weight: 3,
+          color: '#FFFB00',
+          fillColor: '#FFFB00',
+          fillOpacity: 0.7,
+        });
+      }
+
+      function resetSPHighlight(e) {
+        sp_Layer.resetStyle(e.target);
+      }
+
+      // Función para hacer zoom
+      function zoomToFeature(e) {
+        map.fitBounds(e.target.getBounds());
+      }
+
+      // Constante de la Propiedad Privada
+      const pp_Layer = L.geoJson(PROPIEDAD_PRIVADA, {
+        style: function (feature) {
+          return {
+            color: "#BA1BFF",
+            weight: 1,
+            fillColor: "#BA1BFF",
+            fillOpacity: 0.5,
+          };
+        },
+        onEachFeature: function (feature, layer) {
+          if (feature.properties) {
+            var popupContent =
+              "<h3 align='center'>" + (feature.properties.NOM_ENT || "") + "</h3>" +
+              "<h3 align='center'>BLOQUE " + (feature.properties.BLOQUE || "") + "</h3>" +
+              "<h3 align='center'>" + ((feature.properties.SUP || "") + " m<sup>2</sup>") + "</h3>";
+
+            layer.bindPopup(popupContent);
+          }
+
+          layer.on({
+            mouseover: highlightPPFeature,
+            mouseout: resetPPHighlight,
+            click: zoomToFeature,
+          });
+        }
+      });
+
+      // Constante de la Supuesta Propiedad Privada
+      const sp_Layer = L.geoJson(SUPUESTA_PROP_PRIV, {
+        style: function (feature) {
+          return {
+            color: "#FFFB00",
+            weight: 1,
+            fillColor: "#FFFB00",
+            fillOpacity: 0.5,
+          };
+        },
+        onEachFeature: function (feature, layer) {
+          if (feature.properties) {
+            var popupContent =
+              "<h3 align='center'>" + (feature.properties.NOM_EDO || "") + "</h3>" +
+              "<h3 align='center'>NUM. POL " + (feature.properties.NUM_POL || "") + "</h3>" +
+              "<h3 align='center'>" + ((feature.properties.SUP || "") + " m<sup>2</sup>") + "</h3>";
+
+            layer.bindPopup(popupContent);
+          }
+
+          layer.on({
+            mouseover: highlightSPFeature,
+            mouseout: resetSPHighlight,
+            click: zoomToFeature,
+          });
+        }
+      });
+
+      // Constante de los limites estatales
+      const edosLayer = L.geoJson(EDOS, {
+        
+        style: function (feature) {
+          return {
+            color: "#000000", // Color del contorno
+            weight: 2, // Grosor del contorno
+            fillColor: "#979797", // Relleno del polígono
+            fillOpacity: 0, // Relleno transparente
+          };
+        },
+        interactive: false, // Desactiva la interaccion
+      });
+      
+      // Constante de la infraestructura
+      const InfraAIFA_Layer = L.geoJson(INFRA_AIFA, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad INFRA_AIFA
+          function getColors(d) {
+
+            return d == "RIEL" ? "#FCFCFC" : 
+                  d == "CARRETERA" ? "#739391" : 
+                  d == "BANQUETA" ? "#D6D6D6" : 
+                  d == "CANAL" ? "#3EFF00" : 
+                  d == "PROPIEDAD_PRIVADA" ? "#FFFF00" :  // Corregí el formato de color de "FFFF00"
+                  d == "POSTERIA" ? "#CBCC6C" :
+                  d == "TERRACERIA" ? "#CD667F" :
+                  d == "MALLA" ? "#879B4D" :
+                  d == "LINEA_DE_CONTROL" ? "#FF9F81" :
+                  d == "LINEA_ELECTRICA" ? "#9900CC" :
+                  d == "PUENTE" ? "#FFDF7F" :
+                  d == "ALCANTARILLA" ? "#994C5F" :
+                  d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "CONSTRUCCION" ? "#C8DCC1" :
+                  d == "DUCTO_PEMEX" ? "#134C00" :
+                  d == "DRENAJE" ? "#B4B997" :
+                  d == "SISTEMA_DE_RIEGO" ? "#B4B997" :
+                  d == "EJE_DE_VIA" ? "#FF0000" : "#00FFE0";  // Color por defecto
+          }
+
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+
+      // Constante de los derechos de via Acayuca
+      const DDV_Acayuca = L.geoJson(Acayuca, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via Agua Azul
+      const DDV_AGUA_AZUL = L.geoJson(Agua_Azul, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via Ixtlahuaca
+      const DDV_Ixtlahuaca = L.geoJson(Ixtlahuaca, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via Jaguey Tellez
+      const DDV_Jaguey_Tellez = L.geoJson(Jaguey_Tellez, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via EL MUERTO
+      const DDV_El_Muerto = L.geoJson(DDV_EL_MUERTO, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via Pachuquilla
+      const DDV_Pachuquilla = L.geoJson(Pachuquilla, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via Pedro Escobedo
+      const DDV_Pedro_Escobedo = L.geoJson(Pedro_Escobedo, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via San Clemente
+      const DDV_San_Clemente = L.geoJson(San_Clemente, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via San Ildefonso
+      const DDV_San_Ildefonso = L.geoJson(San_Ildefonso, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via San Pedro Tlaquilpan
+      const DDV_Sn_Pedro_Tlaquilpan = L.geoJson(Sn_Pedro_Tlaquilpan, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via Temascalapa
+      const DDV_Temascalapa = L.geoJson(Temascalapa, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via TEPEJI DEL RIO
+      const DDV_TEPEJI_DEL_RIO = L.geoJson(TEPEJI_DEL_RIO, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via SANTA CRUZ Y SUS BARRIOS
+      const DDV_SANTA_CRUZ_Y_SUS_BARRIOS = L.geoJson(SANTA_CRUZ_Y_SUS_BARRIOS, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via SANTA BARBARA
+      const DDV_SANTA_BARBARA = L.geoJson(SANTA_BARBARA, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via NAVAJAS
+      const DDV_NAVAJAS = L.geoJson(NAVAJAS, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via MELCHOR
+      const DDV_MELCHOR = L.geoJson(MELCHOR, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via LOS ALVARES
+      const DDV_LOS_ALVARES = L.geoJson(LOS_ALVARES, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via EL ROSARIO
+      const DDV_EL_ROSARIO = L.geoJson(EL_ROSARIO, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via COYOTEPEC
+      const DDV_COYOTEPEC = L.geoJson(COYOTEPEC, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via SAUZ
+      const DDV_SAUZ = L.geoJson(SAUZ, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via SAN JUAN ZITLALTEPEC
+      const DDV_SN_JUAN_ZITLALTEPEC = L.geoJson(SN_JUAN_ZITLALTEPEC, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via VIBORILLAS
+      const DDV_VIBORILLAS = L.geoJson(VIBORILLAS, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via EL SAUCILLO
+      const DDV_EL_SAUCILLO = L.geoJson(EL_SAUCILLO, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via MOGOTES
+      const DDV_MOGOTES = L.geoJson(MOGOTES, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via NCPA_CHACON
+      const DDV_NCPA_CHACON = L.geoJson(NCPA_CHACON, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via TIZAYUCA
+      const DDV_TIZAYUCA = L.geoJson(TIZAYUCA, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via de PRESA DEL REY
+      const DDV_PRESA_DEL_REY = L.geoJson(PRESA_DEL_REY, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+      // Constante de los derechos de via de SANTA_ANA_NEXTLALPAN
+      const DDV_SANTA_ANA_NEXTLALPAN = L.geoJson(SANTA_ANA_NEXTLALPAN, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+     // Constante de los derechos de via
+      const DDV_Layer = L.geoJson(DDV, {
+        // Función de estilo dentro de geoJSON
+        style: function (feature) {
+          // Asignar colores según la propiedad DDV
+          function getColors(d) {
+
+            return d == "DERECHO_DE_VIA_DEL_PROYECTO" ? "#00BFFF" :
+                  d == "OTRO" ? "#FF0000" : "#FF0000";  // Color por defecto
+          }
+
+          return {
+            weight: 2,          // Grosor de la línea
+            opacity: 0.7,       // Opacidad de la línea
+            color: getColors(feature.properties.TIPO_INFRA), // Asignar color al trazo de la línea
+          };
+        }
+      });
+
+      // Función para definir el color de las líneas con un parámetro de color
+      function lineStyle(color) {
+        return {
+          weight: 3, // Grosor de la línea
+          opacity: 1, // Opacidad de la línea
+          color: color, // Color de la línea que se pasa como parámetro
+        };
+      }
+     
+      // Agregamos un buscador
+      L.Control.PerimetralSearch = L.Control.extend({
+        onAdd: function(map) {
+        const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+        container.style.background = 'white';
+        container.style.padding = '6px';
+        container.style.borderRadius = '8px';
+        container.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)';
+        container.style.minWidth = '160px';
+
+        const input = L.DomUtil.create('input', '', container);
+        input.type = 'text';
+        input.placeholder = 'Buscar perimetral...';
+        input.style.padding = '4px';
+        input.style.width = '120px';
+        input.style.marginRight = '4px';
+        input.style.border = '1px solid #ccc';
+        input.style.borderRadius = '4px';
+
+        const btn = L.DomUtil.create('button', '', container);
+        btn.innerHTML = '🔍';
+        btn.style.cursor = 'pointer';
+        btn.style.padding = '4px 6px';
+
+        L.DomEvent.disableClickPropagation(container);
+
+        function searchPerimetral() {
+          const value = input.value.toLowerCase();
+          let found = false;
+
+          perimetralesLayer.eachLayer(function(layer) {
+            const props = layer.feature.properties;
+            const nombre = (props.NUCLEO_AGRARIO || props.NOMBRE || '').toLowerCase();
+
+            if (nombre.includes(value)) {
+              map.fitBounds(layer.getBounds());
+              layer.setStyle({ color: 'yellow', weight: 4 });
+              found = true;
+            } else {
+              layer.setStyle({ color: '#bf2323', weight: 3 });
+            }
+          });
+
+          if (!found) {
+            alert('Perimetral no encontrado');
+          }
+        }
+
+        btn.addEventListener('click', searchPerimetral);
+        input.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') searchPerimetral();
+        });
+
+        return container;
+        },
+
+        onRemove: function(map) {
+        // Nada que hacer aquí
+        }
+      });
+
+      L.control.perimetralSearch = function(opts) {
+        return new L.Control.PerimetralSearch(opts);
+      };
+
+      L.control.perimetralSearch({ position: 'topright' }).addTo(map);
+
+      // Agregamos un control de capas
+      L.control.layers(mapasBase,).addTo(map);
+      
+      //Control del zoom
+      L.control.zoom({
+            position: "topright"
+        }).addTo(map);
+
+      // Agregamos un control de medicion
+      L.Control.measureControl({
+            position: "topright"
+        }).addTo(map);
+
+      // Crear un control para mostrar coordenadas
+      var coordsControl = L.control({position: 'bottomright'});
+
+      coordsControl.onAdd = function(map) {
+          var div = L.DomUtil.create('div', 'leaflet-control-coords'); // Clase única
+          div.style.background = 'rgba(255,255,255,0.8)'; // también inline por si acaso
+          div.style.padding = '3px';
+          div.style.fontSize = '11px';
+          this._div = div;
+          this.update();
+          return div;
+      };
+
+      coordsControl.update = function(latlng) {
+          this._div.innerHTML = latlng ? 
+              `Lat: ${latlng.lat.toFixed(5)}, Lng: ${latlng.lng.toFixed(5)}` : 
+              'Mueve el mouse sobre el mapa';
+      };
+
+      coordsControl.addTo(map);
+
+     
+      // Evento mousemove
+      map.on('mousemove', function(e) {
+          coordsControl.update(e.latlng);
+      });
+
+
+      // Añadimos las capas al mapa
+      afectacionesLayer.addTo(map);
+      perimetralesLayer.addTo(map);
+      parcelasLayer.addTo(map);
+      pp_Layer
+      sp_Layer
+      InfraAIFA_Layer
+      DDV_Layer.addTo(map);
+      etiquetaLayer.addTo(map);
+      cotasLayer.addTo(map);
+      edosLayer.addTo(map);
+      DDV_Acayuca.addTo(map);
+      DDV_AGUA_AZUL.addTo(map);
+      DDV_Ixtlahuaca.addTo(map);
+      DDV_Jaguey_Tellez.addTo(map);
+      DDV_El_Muerto.addTo(map);
+      DDV_Pachuquilla.addTo(map);
+      DDV_Pedro_Escobedo.addTo(map);
+      DDV_San_Clemente.addTo(map);
+      DDV_San_Ildefonso.addTo(map);
+      DDV_Sn_Pedro_Tlaquilpan.addTo(map);
+      DDV_Temascalapa.addTo(map);
+      DDV_TEPEJI_DEL_RIO.addTo(map);
+      DDV_SANTA_CRUZ_Y_SUS_BARRIOS.addTo(map);
+      DDV_SANTA_BARBARA.addTo(map);
+      DDV_NAVAJAS.addTo(map);
+      DDV_MELCHOR.addTo(map);
+      DDV_LOS_ALVARES.addTo(map);
+      DDV_EL_ROSARIO.addTo(map);
+      DDV_COYOTEPEC.addTo(map);
+      DDV_SAUZ.addTo(map);
+      DDV_SN_JUAN_ZITLALTEPEC.addTo(map);
+      DDV_VIBORILLAS.addTo(map);
+      DDV_EL_SAUCILLO.addTo(map);
+      DDV_MOGOTES.addTo(map);
+      DDV_NCPA_CHACON.addTo(map);
+      DDV_TIZAYUCA.addTo(map);
+      DDV_SANTA_ANA_NEXTLALPAN.addTo(map);
+      DDV_PRESA_DEL_REY.addTo(map);
+      etiquetaLayer.addTo(map);
+
+
+        function encenderCapas(layerName) {
+          const checkbox = document.querySelector(`input[value="${layerName}"]`);
+          const visible = checkbox.checked;
+
+          switch(layerName) {
+            case 'afectacionesLayer':
+              visible ? map.addLayer(afectacionesLayer) : map.removeLayer(afectacionesLayer);
+              break;
+            case 'perimetralesLayer':
+              visible ? map.addLayer(perimetralesLayer) : map.removeLayer(perimetralesLayer);
+              break;
+            case 'parcelasLayer':
+              visible ? map.addLayer(parcelasLayer) : map.removeLayer(parcelasLayer);
+              break;
+            case 'pp_Layer':
+              visible ? map.addLayer(pp_Layer) : map.removeLayer(pp_Layer);
+              break;
+            case 'sp_Layer':
+              visible ? map.addLayer(sp_Layer) : map.removeLayer(sp_Layer);
+              break;
+            case 'cotasLayer':
+              visible ? map.addLayer(cotasLayer) : map.removeLayer(cotasLayer);
+              break;
+            case 'edosLayer':
+              visible ? map.addLayer(edosLayer) : map.removeLayer(edosLayer);
+              break;
+            case 'InfraAIFA_Layer':
+              visible ? map.addLayer(InfraAIFA_Layer) : map.removeLayer(InfraAIFA_Layer);
+              break;
+            case 'DDV_Layer':
+              visible ? map.addLayer(DDV_Layer) : map.removeLayer(DDV_Layer);
+            break;
+            case 'DDV_Acayuca':
+              visible ? map.addLayer(DDV_Acayuca) : map.removeLayer(DDV_Acayuca);
+            break;
+            case 'DDV_AGUA_AZUL':
+              visible ? map.addLayer(DDV_AGUA_AZUL) : map.removeLayer(DDV_AGUA_AZUL);
+            break;
+            case 'DDV_Ixtlahuaca':
+              visible ? map.addLayer(DDV_Ixtlahuaca) : map.removeLayer(DDV_Ixtlahuaca);
+            break;
+            case 'DDV_Jaguey_Tellez':
+              visible ? map.addLayer(DDV_Jaguey_Tellez) : map.removeLayer(DDV_Jaguey_Tellez);
+            break;
+            case 'DDV_El_Muerto':
+              visible ? map.addLayer(DDV_El_Muerto) : map.removeLayer(DDV_El_Muerto);
+            break;
+            case 'DDV_Pachuquilla':
+              visible ? map.addLayer(DDV_Pachuquilla) : map.removeLayer(DDV_Pachuquilla);
+            break;
+            case 'DDV_Pedro_Escobedo':
+              visible ? map.addLayer(DDV_Pedro_Escobedo) : map.removeLayer(DDV_Pedro_Escobedo);
+            break;
+            case 'DDV_San_Clemente':
+              visible ? map.addLayer(DDV_San_Clemente) : map.removeLayer(DDV_San_Clemente);
+            break;
+            case 'DDV_San_Ildefonso':
+              visible ? map.addLayer(DDV_San_Ildefonso) : map.removeLayer(DDV_San_Ildefonso);
+            break;
+            case 'DDV_Sn_Pedro_Tlaquilpan':
+              visible ? map.addLayer(DDV_Sn_Pedro_Tlaquilpan) : map.removeLayer(DDV_Sn_Pedro_Tlaquilpan);
+            break;
+            case 'DDV_Temascalapa':
+              visible ? map.addLayer(DDV_Temascalapa) : map.removeLayer(DDV_Temascalapa);
+            break;
+            case 'DDV_TEPEJI_DEL_RIO':
+              visible ? map.addLayer(DDV_TEPEJI_DEL_RIO) : map.removeLayer(DDV_TEPEJI_DEL_RIO);
+            break;
+            case 'DDV_SANTA_CRUZ_Y_SUS_BARRIOS':
+              visible ? map.addLayer(DDV_SANTA_CRUZ_Y_SUS_BARRIOS) : map.removeLayer(DDV_SANTA_CRUZ_Y_SUS_BARRIOS);
+            break;
+            case 'DDV_SANTA_BARBARA':
+              visible ? map.addLayer(DDV_SANTA_BARBARA) : map.removeLayer(DDV_SANTA_BARBARA);
+            break;
+            case 'DDV_NAVAJAS':
+              visible ? map.addLayer(DDV_NAVAJAS) : map.removeLayer(DDV_NAVAJAS);
+            break;
+            case 'DDV_MELCHOR':
+              visible ? map.addLayer(DDV_MELCHOR) : map.removeLayer(DDV_MELCHOR);
+            break;
+            case 'DDV_LOS_ALVARES':
+              visible ? map.addLayer(DDV_LOS_ALVARES) : map.removeLayer(DDV_LOS_ALVARES);
+            break;
+            case 'DDV_EL_ROSARIO':
+              visible ? map.addLayer(DDV_EL_ROSARIO) : map.removeLayer(DDV_EL_ROSARIO);
+            break;
+            case 'DDV_COYOTEPEC':
+              visible ? map.addLayer(DDV_COYOTEPEC) : map.removeLayer(DDV_COYOTEPEC);
+            break;
+            case 'DDV_SAUZ':
+              visible ? map.addLayer(DDV_SAUZ) : map.removeLayer(DDV_SAUZ);
+            break;
+            case 'DDV_SN_JUAN_ZITLALTEPEC':
+              visible ? map.addLayer(DDV_SN_JUAN_ZITLALTEPEC) : map.removeLayer(DDV_SN_JUAN_ZITLALTEPEC);
+            break;
+            case 'DDV_VIBORILLAS':
+              visible ? map.addLayer(DDV_VIBORILLAS) : map.removeLayer(DDV_VIBORILLAS);
+            break;
+            case 'DDV_EL_SAUCILLO':
+              visible ? map.addLayer(DDV_EL_SAUCILLO) : map.removeLayer(DDV_EL_SAUCILLO);
+            break;
+            case 'DDV_MOGOTES':
+              visible ? map.addLayer(DDV_MOGOTES) : map.removeLayer(DDV_MOGOTES);
+            break;
+            case 'DDV_NCPA_CHACON':
+              visible ? map.addLayer(DDV_NCPA_CHACON) : map.removeLayer(DDV_NCPA_CHACON);
+            break;
+            case 'DDV_PRESA_DEL_REY':
+              visible ? map.addLayer(DDV_PRESA_DEL_REY) : map.removeLayer(DDV_PRESA_DEL_REY);
+            break;
+            case 'DDV_SANTA_ANA_NEXTLALPAN':
+              visible ? map.addLayer(DDV_SANTA_ANA_NEXTLALPAN) : map.removeLayer(DDV_SANTA_ANA_NEXTLALPAN);
+            break;
+            case 'DDV_TIZAYUCA':
+              visible ? map.addLayer(DDV_TIZAYUCA) : map.removeLayer(DDV_TIZAYUCA);
+            break;
+            default:
+              console.warn('Capa no reconocida:', layerName);
+          }
+        }
+
+    </script>
+
+
+
+    <script>
+
+      const sidebar = document.getElementById('sidebar');
+      const toggleArrow = document.getElementById('toggleArrow');
+
+      toggleArrow.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+
+        // Cambiar la posición y la flecha
+        if (sidebar.classList.contains('open')) {
+          toggleArrow.innerHTML = '⬅️';
+          toggleArrow.style.left = '250px';
+        } else {
+          toggleArrow.innerHTML = '➡️';
+          toggleArrow.style.left = '0';
+        }
+      });
+
+      // Submenús desplegables
+      document.querySelectorAll('.has-submenu > a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault(); // evita redirección
+        const parent = link.parentElement;
+        parent.classList.toggle('open');
+        const submenu = parent.querySelector('.submenu');
+        submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+      });
+      });
+
+      
+      function toggleImageVisibility(checkbox) {
+		const id = checkbox.id;
+		let img;
+
+		switch (id) {
+		  case 'edosLayer':
+			  img = document.getElementById('despliegue');
+			break;
+		  case 'Afectaciones':
+			  img = document.getElementById('despliegue1');
+			break;
+		  case 'perimetralesLayer':
+			  img = document.getElementById('despliegue2');
+			break;
+		  case 'parcelasLayer':
+			  img = document.getElementById('despliegue3');
+			break;
+		  case 'pp_Layer':
+			  img = document.getElementById('despliegue4');
+			break;
+		  case 'sp_Layer':
+			  img = document.getElementById('despliegue5');
+			break;
+		  case 'InfraAIFA_Layer':
+			  img = document.getElementById('despliegue6');
+			break;
+      case 'DDV_Layer':
+			  img = document.getElementById('despliegue7');
+			break;
+      case 'DDV_Acayuca':
+			  img = document.getElementById('despliegue8');
+			break;
+      case 'DDV_AGUA_AZUL':
+			  img = document.getElementById('despliegue9');
+			break;
+      case 'DDV_Ixtlahuaca':
+			  img = document.getElementById('despliegue10');
+			break;
+      case 'DDV_Jaguey_Tellez':
+			  img = document.getElementById('despliegue11');
+			break;
+      case 'DDV_Pachuquilla':
+			  img = document.getElementById('despliegue12');
+			break;
+      case 'DDV_Pedro_Escobedo':
+			  img = document.getElementById('despliegue13');
+			break;
+      case 'DDV_San_Clemente':
+			  img = document.getElementById('despliegue14');
+			break;
+      case 'DDV_San_Ildefonso':
+			  img = document.getElementById('despliegue15');
+			break;
+      case 'DDV_Sn_Pedro_Tlaquilpan':
+			  img = document.getElementById('despliegue16');
+			break;
+      case 'DDV_Temascalapa':
+			  img = document.getElementById('despliegue17');
+			break;
+      case 'DDV_El_Muerto':
+			  img = document.getElementById('despliegue18');
+      break;
+      case 'DDV_TEPEJI_DEL_RIO':
+			  img = document.getElementById('despliegue19');
+			break;
+      case 'DDV_SANTA_CRUZ_Y_SUS_BARRIOS':
+			  img = document.getElementById('despliegue20');
+			break;
+      case 'DDV_SANTA_BARBARA':
+			  img = document.getElementById('despliegue21');
+			break;
+      case 'DDV_NAVAJAS':
+			  img = document.getElementById('despliegue22');
+			break;
+      case 'DDV_MELCHOR':
+			  img = document.getElementById('despliegue23');
+			break;
+      case 'DDV_LOS_ALVARES':
+			  img = document.getElementById('despliegue24');
+			break;
+      case 'DDV_EL_ROSARIO':
+			  img = document.getElementById('despliegue25');
+			break;
+      case 'DDV_COYOTEPEC':
+			  img = document.getElementById('despliegue26');
+			break;
+      case 'DDV_SAUZ':
+			  img = document.getElementById('despliegue27');
+			break;
+      case 'DDV_SN_JUAN_ZITLALTEPEC':
+			  img = document.getElementById('despliegue28');
+			break;
+      case 'DDV_VIBORILLAS':
+			  img = document.getElementById('despliegue29');
+			break;
+      case 'DDV_EL_SAUCILLO':
+			  img = document.getElementById('despliegue30');
+			break;
+      case 'DDV_MOGOTES':
+			  img = document.getElementById('despliegue31');
+			break;
+      case 'DDV_NCPA_CHACON':
+			  img = document.getElementById('despliegue32');
+			break;
+      case 'DDV_TIZAYUCA':
+			  img = document.getElementById('despliegue33');
+			break;
+      case 'DDV_PRESA_DEL_REY':
+			  img = document.getElementById('despliegue34');
+			break;
+      case 'DDV_SANTA_ANA_NEXTLALPAN':
+			  img = document.getElementById('despliegue35');
+			break;
+      case 'cotasLayer':
+			  img = document.getElementById('despliegue40');
+			break;
+      default:
+			return;
+		}
+
+		if (checkbox.checked) {
+		  img.style.display = 'block';
+		} else {
+		  img.style.display = 'none';
+		}
+	  }
+
+	  // Al cargar la página, inicializar correctamente la visibilidad de las imágenes
+	  window.addEventListener('DOMContentLoaded', function () {
+		const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+		checkboxes.forEach(function (checkbox) {
+		  toggleImageVisibility(checkbox);
+		});
+	  });
+
+    </script>
+  
+
+        
+  </body>
+
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+        function toggleMenu () {
+            var toggle = document.querySelector('.menu-toggle');
+            var menu = document.querySelector('.menu');
+            toggle.classList.toggle('close');
+            menu.classList.toggle('closed');
+        }
+
+        function initMenu () {
+            var toggle = document.querySelector('.menu-toggle');
+        }
+
+        initMenu();
+    });
+</script>
+
+
+</html>
